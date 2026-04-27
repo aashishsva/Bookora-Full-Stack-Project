@@ -35,8 +35,12 @@ const publicPath = path.join(__dirname, "../public");
 // ✅ static serve
 app.use(express.static(publicPath));
 
-// ❗ VERY IMPORTANT FIX (SPA fallback)
-app.get(/^\/(?!api).*/, (req, res) => {
+// 🔥 SPA fallback (NO REGEX)
+app.use((req, res) => {
+  if (req.path.startsWith("/api")) {
+    return res.status(404).json({ message: "API route not found" });
+  }
+
   res.sendFile(path.join(publicPath, "index.html"));
 });
 
