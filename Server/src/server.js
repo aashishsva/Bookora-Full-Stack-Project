@@ -2,12 +2,12 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import connectDB from "./config/db.js";
+
 import authRoutes from "./routes/authRoutes.js";
 import bookingRoutes from "./routes/bookingRoutes.js";
 import serviceRoutes from "./routes/serviceRoutes.js";
 import settingRoutes from "./routes/settingRoutes.js";
 
-// 👇 ADD THESE
 import path from "path";
 import { fileURLToPath } from "url";
 
@@ -16,43 +16,29 @@ connectDB();
 
 const app = express();
 
-// 👇 CORS (temporary open for safety)
-app.use(
-  cors({
-    origin: "*",
-    credentials: true,
-  })
-);
-
+app.use(cors({ origin: "*", credentials: true }));
 app.use(express.json());
 
-// API Routes
+// API routes FIRST
 app.use("/api/auth", authRoutes);
 app.use("/api/bookings", bookingRoutes);
 app.use("/api/services", serviceRoutes);
 app.use("/api/settings", settingRoutes);
 
-// Root test
-app.get("/api", (req, res) => {
-  res.json({ message: "Bookora Backend Running 🚀" });
-});
-
-// =========================
-// 🔥 FRONTEND SERVE PART
-// =========================
-
+// path setup
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// 👇 static frontend serve
-app.use(express.static(path.join(__dirname, "../../public")));
+// 🔥 IMPORTANT: correct path
+const publicPath = path.join(__dirname, "../../public");
 
-// 👇 React routing fix (IMPORTANT)
+// serve static
+app.use(express.static(publicPath));
+
+// 🔥 SPA fallback (must be LAST)
 app.use((req, res) => {
-  res.sendFile(path.join(__dirname, "../../public/index.html"));
+  res.sendFile(path.join(publicPath, "index.html"));
 });
-
-// =========================
 
 const PORT = process.env.PORT || 5000;
 
