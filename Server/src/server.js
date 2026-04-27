@@ -19,21 +19,24 @@ const app = express();
 app.use(cors({ origin: "*", credentials: true }));
 app.use(express.json());
 
-// API routes FIRST
+// ✅ API routes FIRST
 app.use("/api/auth", authRoutes);
 app.use("/api/bookings", bookingRoutes);
 app.use("/api/services", serviceRoutes);
 app.use("/api/settings", settingRoutes);
 
-// path setup
+// ✅ path setup
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+// 👇 IMPORTANT
 const publicPath = path.join(__dirname, "../public");
 
+// ✅ static serve
 app.use(express.static(publicPath));
 
-app.use((req, res) => {
+// ❗ VERY IMPORTANT FIX (SPA fallback)
+app.get(/^\/(?!api).*/, (req, res) => {
   res.sendFile(path.join(publicPath, "index.html"));
 });
 
