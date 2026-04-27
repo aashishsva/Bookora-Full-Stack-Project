@@ -29,13 +29,10 @@ app.use("/api/settings", settingRoutes);
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// 🔥 IMPORTANT: correct path
-const publicPath = path.join(__dirname, "../../public");
+const publicPath = path.join(__dirname, "../public");
 
-// serve static
 app.use(express.static(publicPath));
 
-// 🔥 SPA fallback (must be LAST)
 app.use((req, res) => {
   res.sendFile(path.join(publicPath, "index.html"));
 });
