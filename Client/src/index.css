@@ -1,0 +1,42 @@
+@import "tailwindcss";
+
+html,
+body,
+#root {
+  width: 100%;
+  min-height: 100%;
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background:
+    radial-gradient(
+      circle at top right,
+      rgba(139, 92, 246, 0.18),
+      transparent 30%
+    ),
+    radial-gradient(
+      circle at bottom left,
+      rgba(59, 130, 246, 0.12),
+      transparent 30%
+    ),
+    #050816;
+  color: white;
+  font-family: Inter, Arial, sans-serif;
+}
+
+a {
+  text-decoration: none;
+}
+
+.premium-card {
+  backdrop-filter: blur(14px);
+  transition: all 0.3s ease;
+}
+
+.premium-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 40px rgba(139,92,246,0.12);
+}
