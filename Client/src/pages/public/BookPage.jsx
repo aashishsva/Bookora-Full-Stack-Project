@@ -51,7 +51,7 @@ function BookPage() {
     service: selectedService,
     date: "",
     time: "10:00 AM",
-    userId: "PUT_ADMIN_USER_ID_HERE",
+    userId: "69ef3c315c35b03b759c6d3f",
   });
 
   const handleChange = (e) => {
