@@ -1,15 +1,18 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import Home from "../pages/public/Home";
+import BookPage from "../pages/public/BookPage";
+
 import DashboardHome from "../pages/dashboard/DashboardHome";
 import BookingsPage from "../pages/dashboard/BookingsPage";
 import ServicesPage from "../pages/dashboard/ServicesPage";
 import CustomersPage from "../pages/dashboard/CustomersPage";
-import LoginPage from "../pages/auth/LoginPage";
-import RegisterPage from "../pages/auth/RegisterPage";
-import ProtectedRoute from "./ProtectedRoute";
 import SettingsPage from "../pages/dashboard/SettingPage";
 
+import LoginPage from "../pages/auth/LoginPage";
+import RegisterPage from "../pages/auth/RegisterPage";
+
+import ProtectedRoute from "./ProtectedRoute";
 
 function AppRoutes() {
   return (
@@ -17,6 +20,7 @@ function AppRoutes() {
       <Routes>
         {/* Public Routes */}
         <Route path="/" element={<Home />} />
+        <Route path="/book" element={<BookPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
 
@@ -56,6 +60,7 @@ function AppRoutes() {
             </ProtectedRoute>
           }
         />
+
         <Route
           path="/dashboard/settings"
           element={

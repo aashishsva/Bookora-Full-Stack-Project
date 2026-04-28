@@ -6,6 +6,7 @@ body,
   width: 100%;
   min-height: 100%;
   scroll-behavior: smooth;
+  overflow-x: hidden;
 }
 
 body {
@@ -39,4 +40,34 @@ a {
 .premium-card:hover {
   transform: translateY(-6px);
   box-shadow: 0 20px 40px rgba(139,92,246,0.12);
+}
+
+/* Smooth Scroll */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Global Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #050816;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(139, 92, 246, 0.6);
+  border-radius: 20px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(139, 92, 246, 0.9);
+}
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(139, 92, 246, 0.6) #050816;
 }

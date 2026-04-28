@@ -13,6 +13,28 @@ export const createBooking = async (req, res) => {
   }
 };
 
+export const createPublicBooking = async (req, res) => {
+  try {
+    const { customer, service, date, time, userId } = req.body;
+
+    const booking = await Booking.create({
+      customer,
+      service,
+      date,
+      time,
+      user: userId,
+      status: "Pending",
+    });
+
+    res.status(201).json({
+      message: "Booking created successfully",
+      booking,
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 export const getBookings = async (req, res) => {
   try {
     const bookings = await Booking.find({
@@ -30,15 +52,19 @@ export const getBookingStats = async (req, res) => {
     const bookings = await Booking.find({ user: req.user });
 
     const total = bookings.length;
-    const pending = bookings.filter((item) => item.status === "Pending").length;
+    const pending = bookings.filter(
+      (item) => item.status === "Pending"
+    ).length;
 
     const completed = bookings.filter(
-      (item) => item.status === "Completed",
+      (item) => item.status === "Completed"
     ).length;
 
     const todayDate = new Date().toISOString().split("T")[0];
 
-    const today = bookings.filter((item) => item.date === todayDate).length;
+    const today = bookings.filter(
+      (item) => item.date === todayDate
+    ).length;
 
     res.json({
       total,
@@ -59,7 +85,9 @@ export const updateBooking = async (req, res) => {
     });
 
     if (!booking) {
-      return res.status(404).json({ message: "Booking not found" });
+      return res.status(404).json({
+        message: "Booking not found",
+      });
     }
 
     booking.status = req.body.status || booking.status;
@@ -80,7 +108,9 @@ export const deleteBooking = async (req, res) => {
     });
 
     if (!booking) {
-      return res.status(404).json({ message: "Booking not found" });
+      return res.status(404).json({
+        message: "Booking not found",
+      });
     }
 
     await booking.deleteOne();
@@ -90,8 +120,6 @@ export const deleteBooking = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
-
-
 
 export const getCustomers = async (req, res) => {
   try {
@@ -116,9 +144,7 @@ export const getCustomers = async (req, res) => {
       }
     });
 
-    const customers = Object.values(map);
-
-    res.json(customers);
+    res.json(Object.values(map));
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

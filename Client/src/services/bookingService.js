@@ -23,3 +23,6 @@ export const getBookingStats = () =>
 
 export const getCustomers = () =>
   api.get("/bookings/customers", authHeader());
+
+export const createPublicBooking = (data) =>
+  api.post("/bookings/public", data);

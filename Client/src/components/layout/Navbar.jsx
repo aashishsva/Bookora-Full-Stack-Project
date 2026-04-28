@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { HiMenuAlt3, HiX } from "react-icons/hi";
+import { FaChevronDown } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 
 function Navbar() {
   const [open, setOpen] = useState(false);
+  const [serviceOpen, setServiceOpen] = useState(false);
   const navigate = useNavigate();
 
   const user = JSON.parse(localStorage.getItem("user"));
@@ -15,6 +17,14 @@ function Navbar() {
     { name: "Features", href: "#features" },
     { name: "Pricing", href: "#pricing" },
     { name: "Contact", href: "#contact" },
+  ];
+
+  const services = [
+    { name: "Hair Salon", path: "/book?service=Haircut" },
+    { name: "Doctor Appointment", path: "/book?service=Consultation" },
+    { name: "Beauty Parlour", path: "/book?service=Facial" },
+    { name: "Fitness Trainer", path: "/book?service=Training" },
+    { name: "Consultant Meeting", path: "/book?service=Session" },
   ];
 
   const handleLogout = () => {
@@ -45,10 +55,42 @@ function Navbar() {
               {item.name}
             </a>
           ))}
+
+          {/* Services Dropdown */}
+          <div className="relative">
+            <button
+              onClick={() => setServiceOpen(!serviceOpen)}
+              className="flex items-center gap-2 hover:text-white transition"
+            >
+              Services <FaChevronDown size={12} />
+            </button>
+
+            {serviceOpen && (
+              <div className="absolute top-10 left-0 w-60 rounded-2xl border border-white/10 bg-[#0b1020] p-2 shadow-2xl">
+                {services.map((item) => (
+                  <Link
+                    key={item.name}
+                    to={item.path}
+                    className="block px-4 py-3 rounded-xl hover:bg-white/5 transition"
+                    onClick={() => setServiceOpen(false)}
+                  >
+                    {item.name}
+                  </Link>
+                ))}
+              </div>
+            )}
+          </div>
         </nav>
 
         {/* Desktop Right */}
         <div className="hidden md:flex items-center gap-3">
+          <Link
+            to="/book"
+            className="px-5 py-2 rounded-xl bg-violet-500 hover:bg-violet-600 transition font-medium"
+          >
+            Book Now
+          </Link>
+
           {token ? (
             <>
               <span className="text-sm text-gray-300 hidden lg:block">
@@ -77,13 +119,6 @@ function Navbar() {
               >
                 Login
               </Link>
-
-              <Link
-                to="/register"
-                className="px-5 py-2 rounded-xl bg-violet-500 hover:bg-violet-600 transition font-medium"
-              >
-                Get Started
-              </Link>
             </>
           )}
         </div>
@@ -111,13 +146,35 @@ function Navbar() {
             </a>
           ))}
 
+          {/* Services */}
+          <div className="pt-2">
+            <p className="text-sm text-gray-400 mb-2">Services</p>
+
+            <div className="space-y-2">
+              {services.map((item) => (
+                <Link
+                  key={item.name}
+                  to={item.path}
+                  onClick={() => setOpen(false)}
+                  className="block py-2 px-3 rounded-xl bg-white/5 hover:bg-white/10"
+                >
+                  {item.name}
+                </Link>
+              ))}
+            </div>
+          </div>
+
           <div className="pt-4 flex flex-col gap-3">
+            <Link
+              to="/book"
+              onClick={() => setOpen(false)}
+              className="w-full py-3 rounded-xl bg-violet-500 hover:bg-violet-600 transition font-medium text-center"
+            >
+              Book Now
+            </Link>
+
             {token ? (
               <>
-                <div className="text-sm text-gray-400">
-                  Welcome, {user?.name}
-                </div>
-
                 <Link
                   to="/dashboard"
                   onClick={() => setOpen(false)}
@@ -134,23 +191,13 @@ function Navbar() {
                 </button>
               </>
             ) : (
-              <>
-                <Link
-                  to="/login"
-                  onClick={() => setOpen(false)}
-                  className="w-full py-3 rounded-xl border border-white/10 text-center hover:bg-white/5 transition"
-                >
-                  Login
-                </Link>
-
-                <Link
-                  to="/register"
-                  onClick={() => setOpen(false)}
-                  className="w-full py-3 rounded-xl bg-violet-500 hover:bg-violet-600 transition font-medium text-center"
-                >
-                  Get Started
-                </Link>
-              </>
+              <Link
+                to="/login"
+                onClick={() => setOpen(false)}
+                className="w-full py-3 rounded-xl border border-white/10 text-center hover:bg-white/5 transition"
+              >
+                Login
+              </Link>
             )}
           </div>
         </div>
